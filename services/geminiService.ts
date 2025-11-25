@@ -7,15 +7,16 @@ let aiClient: GoogleGenAI | null = null;
 const getAiClient = () => {
   if (!aiClient) {
     try {
-      // Defensive check for process to prevent ReferenceError in strict browser environments
-      // We check if 'process' is defined before accessing it.
-      const apiKey = typeof process !== 'undefined' && process.env ? process.env.API_KEY : undefined;
+      // Access process.env.API_KEY directly so bundlers can replace it with the string literal.
+      // We wrap it in a try-catch to safely handle cases where 'process' is not defined at runtime.
+      const apiKey = process.env.API_KEY;
       
       if (apiKey) {
         aiClient = new GoogleGenAI({ apiKey });
       }
     } catch (e) {
-      console.warn("API Key access failed", e);
+      // Silently handle the error to prevent app crashes if process is undefined
+      console.warn("API Key configuration issue.");
     }
   }
   return aiClient;
