@@ -7,7 +7,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: 'A sweet & savory curry with broccoli, carrots, onions, kale & roasted almonds.',
     price: 12.95,
     category: 'Warm Bowls',
-    image: 'https://picsum.photos/400/400?random=1',
+    image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop', // Bowl with greens
     tags: ['Curry', 'Warm', 'Comforting'],
     ingredients: ['Brown Rice', 'Broccoli', 'Carrots', 'Onions', 'Kale', 'Tamari Almonds', 'Sweet Curry Miso Sauce'],
     calories: 450
@@ -18,7 +18,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: 'Avocado, broccoli, kale, tofu & ginger tamari sauce.',
     price: 13.50,
     category: 'Warm Bowls',
-    image: 'https://picsum.photos/400/400?random=2',
+    image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=800&auto=format&fit=crop', // Green healthy bowl
     tags: ['Protein Rich', 'Greens', 'Vegan'],
     ingredients: ['Brown Rice', 'Avocado', 'Broccoli', 'Kale', 'Tofu', 'Ginger Tamari Sauce'],
     calories: 510
@@ -29,7 +29,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: 'Corn, beets, broccoli, kale, cheddar, tamari almonds & sesame ginger sauce.',
     price: 13.25,
     category: 'Warm Bowls',
-    image: 'https://picsum.photos/400/400?random=3',
+    image: 'https://images.unsplash.com/photo-1623428187969-5da2dcea5ebf?q=80&w=800&auto=format&fit=crop', // Colorful bowl
     tags: ['Cheesy', 'Crunchy', 'Hearty'],
     ingredients: ['Quinoa', 'Corn', 'Beets', 'Broccoli', 'Kale', 'Aged Cheddar', 'Tamari Almonds', 'Sesame Ginger Sauce'],
     calories: 580
@@ -40,7 +40,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: 'Whipped sweet potato, beets, carrots, broccoli, kale, tofu & ginger tamari sauce.',
     price: 12.75,
     category: 'Warm Bowls',
-    image: 'https://picsum.photos/400/400?random=4',
+    image: 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?q=80&w=800&auto=format&fit=crop', // Bowl with sweet potato/orange hues
     tags: ['Colorful', 'Sweet Potato', 'Vitamin A'],
     ingredients: ['Brown Rice', 'Whipped Sweet Potato', 'Beets', 'Carrots', 'Broccoli', 'Kale', 'Tofu', 'Ginger Tamari Sauce'],
     calories: 490
@@ -51,7 +51,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: 'Kale, spinach, mango, pineapple, banana & coconut water.',
     price: 9.50,
     category: 'Smoothies',
-    image: 'https://picsum.photos/400/400?random=5',
+    image: 'https://images.unsplash.com/photo-1610970881699-44a5587cabec?q=80&w=800&auto=format&fit=crop', // Green smoothie
     tags: ['Detox', 'Energizing', 'Refreshing'],
     ingredients: ['Kale', 'Spinach', 'Mango', 'Pineapple', 'Banana', 'Coconut Water'],
     calories: 280
@@ -62,7 +62,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: 'Blue majik spirulina, banana, pineapple, coconut milk & vanilla.',
     price: 10.50,
     category: 'Smoothies',
-    image: 'https://picsum.photos/400/400?random=6',
+    image: 'https://images.unsplash.com/photo-1550505191-49faae21226b?q=80&w=800&auto=format&fit=crop', // Blue drink/smoothie bowl
     tags: ['Antioxidant', 'Exotic', 'Creamy'],
     ingredients: ['Blue Majik Spirulina', 'Banana', 'Pineapple', 'Coconut Milk', 'Vanilla'],
     calories: 320
@@ -73,7 +73,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: 'Turmeric, ginger, cinnamon, honey & oat milk.',
     price: 6.50,
     category: 'Lattes',
-    image: 'https://picsum.photos/400/400?random=7',
+    image: 'https://images.unsplash.com/photo-1596711684368-20d0d8262744?q=80&w=800&auto=format&fit=crop', // Golden latte
     tags: ['Anti-inflammatory', 'Warm', 'Spiced'],
     ingredients: ['Turmeric', 'Ginger', 'Cinnamon', 'Honey', 'Oat Milk'],
     calories: 180
@@ -84,7 +84,7 @@ export const MENU_ITEMS: MenuItem[] = [
     description: 'Massaged kale, arugula, beets, carrots, apples, hemp seeds & balsamic glaze.',
     price: 11.95,
     category: 'Salads',
-    image: 'https://picsum.photos/400/400?random=8',
+    image: 'https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?q=80&w=800&auto=format&fit=crop', // Fresh salad
     tags: ['Raw', 'Light', 'Nutrient Dense'],
     ingredients: ['Kale', 'Arugula', 'Beets', 'Carrots', 'Apples', 'Hemp Seeds', 'Balsamic Glaze'],
     calories: 340
