@@ -7,8 +7,10 @@ let aiClient: GoogleGenAI | null = null;
 const getAiClient = () => {
   if (!aiClient) {
     try {
-      // Safely access process.env.API_KEY
-      const apiKey = process.env.API_KEY;
+      // Defensive check for process to prevent ReferenceError in strict browser environments
+      // We check if 'process' is defined before accessing it.
+      const apiKey = typeof process !== 'undefined' && process.env ? process.env.API_KEY : undefined;
+      
       if (apiKey) {
         aiClient = new GoogleGenAI({ apiKey });
       }
