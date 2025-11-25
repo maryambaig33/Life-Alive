@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { generateWellnessRecommendation } from '../services/geminiService';
 import { ChatMessage } from '../types';
-import { Sparkles, Send, Loader2, RefreshCw, MessageSquare } from 'lucide-react';
+import { Sparkles, Send, Loader2, RefreshCw } from 'lucide-react';
 
 const SUGGESTION_CHIPS = [
   "⚡️ I need energy",
@@ -30,31 +30,44 @@ const Concierge: React.FC = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, isTyping]);
 
   const handleSend = async (text: string = query) => {
     if (!text.trim()) return;
 
     const userMsg: ChatMessage = {
-      id: Date.now().toString(),
+      id: `user-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       role: 'user',
       text: text
     };
 
-    setMessages(prev => [...prev, userMsg]);
+    // Optimistic update
+    const newHistory = [...messages, userMsg];
+    setMessages(newHistory);
     setQuery('');
     setIsTyping(true);
 
-    const responseText = await generateWellnessRecommendation(userMsg.text);
+    try {
+      // Pass the entire history to the service for context
+      const responseText = await generateWellnessRecommendation(newHistory);
 
-    const modelMsg: ChatMessage = {
-      id: (Date.now() + 1).toString(),
-      role: 'model',
-      text: responseText
-    };
+      const modelMsg: ChatMessage = {
+        id: `model-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        role: 'model',
+        text: responseText
+      };
 
-    setMessages(prev => [...prev, modelMsg]);
-    setIsTyping(false);
+      setMessages(prev => [...prev, modelMsg]);
+    } catch (err) {
+      const errorMsg: ChatMessage = {
+        id: `error-${Date.now()}`,
+        role: 'model',
+        text: "I'm having a moment of silence. Please try again briefly. 🍃"
+      };
+      setMessages(prev => [...prev, errorMsg]);
+    } finally {
+      setIsTyping(false);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -85,13 +98,14 @@ const Concierge: React.FC = () => {
             onClick={() => setMessages([messages[0]])}
             className="text-white/70 hover:text-white hover:bg-white/10 p-2 rounded-full transition-all relative z-10"
             title="Reset Chat"
+            aria-label="Reset Conversation"
         >
             <RefreshCw size={20} />
         </button>
       </div>
 
       {/* Messages Area */}
-      <div className="flex-grow overflow-y-auto p-6 space-y-8 bg-gradient-to-b from-white/50 to-life-cream/50 relative">
+      <div className="flex-grow overflow-y-auto p-6 space-y-8 bg-gradient-to-b from-white/50 to-life-cream/50 relative scroll-smooth">
         <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: "url('https://www.transparenttextures.com/patterns/cubes.png')" }}></div>
         
         {messages.map((msg) => (
@@ -127,7 +141,7 @@ const Concierge: React.FC = () => {
       </div>
 
       {/* Input Area */}
-      <div className="bg-white border-t border-gray-100 p-4">
+      <div className="bg-white border-t border-gray-100 p-4 relative z-20">
         {/* Suggestion Chips - Only show if minimal messages */}
         {messages.length < 4 && !isTyping && (
              <div className="flex flex-wrap gap-2 mb-4 px-2">
@@ -151,11 +165,13 @@ const Concierge: React.FC = () => {
             onKeyDown={handleKeyPress}
             placeholder="Tell me how you're feeling..."
             className="w-full bg-gray-50 border-gray-200 text-gray-800 placeholder:text-gray-400 focus:ring-2 focus:ring-life-purple/50 focus:border-life-purple focus:bg-white rounded-xl py-4 pl-6 pr-14 transition-all"
+            disabled={isTyping}
           />
           <button 
             onClick={() => handleSend()}
             disabled={!query.trim() || isTyping}
-            className="absolute right-2 p-2.5 bg-life-purple text-white rounded-lg hover:bg-purple-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg active:scale-95"
+            className="absolute right-2 p-2.5 bg-life-purple text-white rounded-lg hover:bg-purple-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg active:scale-95 flex items-center justify-center"
+            aria-label="Send message"
           >
             {isTyping ? <Loader2 className="animate-spin w-5 h-5" /> : <Send className="w-5 h-5" />}
           </button>

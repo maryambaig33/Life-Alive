@@ -1,5 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 import { MENU_ITEMS, SYSTEM_INSTRUCTION } from "../constants";
+import { ChatMessage } from "../types";
 
 let aiClient: GoogleGenAI | null = null;
 
@@ -13,24 +14,38 @@ const getAiClient = () => {
   return aiClient;
 };
 
-export const generateWellnessRecommendation = async (userQuery: string): Promise<string> => {
+// Enhanced to accept the full history for context-aware replies
+export const generateWellnessRecommendation = async (history: ChatMessage[]): Promise<string> => {
   const client = getAiClient();
   if (!client) {
     return "I'm having trouble connecting to my wellness senses right now (API Key missing). Please try exploring the menu manually! 🌿";
   }
 
-  // Enhance context with the actual menu data stringified
+  // Format the menu data efficiently
   const menuContext = MENU_ITEMS.map(item => 
-    `${item.name} (${item.category}): ${item.description}. Ingredients: ${item.ingredients.join(', ')}. Benefits: ${item.tags.join(', ')}.`
+    `- ${item.name} (${item.category}, $${item.price}): ${item.description} [Ingredients: ${item.ingredients.join(', ')}] [Benefits: ${item.tags.join(', ')}]`
   ).join('\n');
 
+  // Construct the conversation history for the model
+  // Filter out error messages or loading states if any
+  const conversationHistory = history
+    .filter(msg => !msg.isLoading)
+    .map(msg => `${msg.role === 'user' ? 'Customer' : 'Concierge'}: ${msg.text}`)
+    .join('\n');
+
   const fullPrompt = `
-    Context: Here is the Life Alive Menu:
+    Current Conversation:
+    ${conversationHistory}
+
+    (Provide a helpful, vibrant, and concise response to the Customer's last message based on the Life Alive Menu provided in the system instructions. Do not repeat the menu list unless asked.)
+  `;
+
+  // Combine static system instruction with dynamic menu data
+  const enhancedSystemInstruction = `
+    ${SYSTEM_INSTRUCTION}
+
+    HERE IS THE OFFICIAL MENU DATA YOU MUST USE:
     ${menuContext}
-
-    User Query: "${userQuery}"
-
-    Based on the menu above, provide a personalized recommendation.
   `;
 
   try {
@@ -38,7 +53,7 @@ export const generateWellnessRecommendation = async (userQuery: string): Promise
       model: 'gemini-2.5-flash',
       contents: fullPrompt,
       config: {
-        systemInstruction: SYSTEM_INSTRUCTION,
+        systemInstruction: enhancedSystemInstruction,
         temperature: 0.7,
       }
     });

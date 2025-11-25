@@ -37,6 +37,8 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setView, cartCount }) => {
         <div 
             className="flex items-center gap-2 cursor-pointer group" 
             onClick={() => setView(ViewState.HOME)}
+            role="button"
+            aria-label="Go to Homepage"
         >
             <div className={`p-2 rounded-full transition-colors ${isScrolled ? 'bg-life-green text-white' : 'bg-white text-life-green'}`}>
                 <Leaf size={24} />
@@ -66,10 +68,10 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setView, cartCount }) => {
           
           <button className={`relative p-2 rounded-full transition-colors ${
              isScrolled ? 'hover:bg-gray-100 text-life-dark-green' : 'hover:bg-white/10 text-white'
-          }`}>
+          }`} aria-label="Shopping Cart">
             <ShoppingBag size={24} />
             {cartCount > 0 && (
-                <span className="absolute top-0 right-0 bg-life-orange text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">
+                <span className="absolute top-0 right-0 bg-life-orange text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white animate-in zoom-in">
                     {cartCount}
                 </span>
             )}
@@ -80,6 +82,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setView, cartCount }) => {
         <button 
             className={`md:hidden p-2 ${isScrolled ? 'text-life-dark-green' : 'text-white'}`}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle Menu"
         >
             {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
@@ -87,7 +90,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setView, cartCount }) => {
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 top-16 bg-life-cream z-40 flex flex-col p-6 animate-in slide-in-from-top-10 fade-in duration-300">
+        <div className="fixed inset-0 top-0 bg-life-cream z-40 flex flex-col p-6 animate-in slide-in-from-top-10 fade-in duration-300 pt-24">
             {navLinks.map((link) => (
                 <button
                 key={link.label}
@@ -95,7 +98,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setView, cartCount }) => {
                     setView(link.value);
                     setMobileMenuOpen(false);
                 }}
-                className="text-2xl font-serif text-life-dark-green py-4 border-b border-gray-200 text-left hover:text-life-orange"
+                className="text-3xl font-serif text-life-dark-green py-6 border-b border-gray-200 text-left hover:text-life-orange transition-colors"
                 >
                 {link.label}
                 </button>

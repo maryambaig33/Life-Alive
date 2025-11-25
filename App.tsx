@@ -86,39 +86,49 @@ const App: React.FC = () => {
       </div>
   );
 
-  const LocationsView = () => (
-    <div className="container mx-auto px-6 py-32 min-h-screen">
-       <div className="text-center mb-16">
-            <h2 className="font-serif text-5xl font-bold text-life-dark-green mb-6">Our Sanctuaries</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto text-lg">Visit us to experience the vibrant atmosphere, healing foods, and community in person.</p>
-       </div>
-       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[1, 2, 3].map((i) => (
-                <div key={i} className="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-                    <div className="h-48 rounded-2xl bg-gray-200 mb-6 overflow-hidden">
-                        <img 
-                            src={`https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=800&auto=format&fit=crop&random=${i}`} 
-                            alt="Location" 
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                        />
-                    </div>
-                    <h3 className="font-serif text-2xl font-bold text-life-dark-green mb-2">Cambridge / Central Square</h3>
-                    <div className="space-y-4 text-gray-600 mb-8">
-                        <div className="flex items-start gap-3">
-                            <MapPin className="mt-1 text-life-orange flex-shrink-0" size={20} />
-                            <p>765 Massachusetts Ave<br/>Cambridge, MA 02139</p>
+  const LocationsView = () => {
+    // Stable images for locations to prevent re-rendering flickers
+    const locationImages = [
+        "https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1525610553991-2bede1a236e2?q=80&w=800&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1521017432531-fbd92d768814?q=80&w=800&auto=format&fit=crop"
+    ];
+
+    return (
+        <div className="container mx-auto px-6 py-32 min-h-screen">
+        <div className="text-center mb-16">
+                <h2 className="font-serif text-5xl font-bold text-life-dark-green mb-6">Our Sanctuaries</h2>
+                <p className="text-gray-600 max-w-2xl mx-auto text-lg">Visit us to experience the vibrant atmosphere, healing foods, and community in person.</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {[0, 1, 2].map((i) => (
+                    <div key={i} className="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                        <div className="h-48 rounded-2xl bg-gray-200 mb-6 overflow-hidden">
+                            <img 
+                                src={locationImages[i]} 
+                                alt="Life Alive Location" 
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                loading="lazy"
+                            />
                         </div>
-                        <div className="flex items-start gap-3">
-                            <Clock className="mt-1 text-life-orange flex-shrink-0" size={20} />
-                            <p>Mon-Sun: 8am - 9pm</p>
+                        <h3 className="font-serif text-2xl font-bold text-life-dark-green mb-2">Cambridge / Central Square</h3>
+                        <div className="space-y-4 text-gray-600 mb-8">
+                            <div className="flex items-start gap-3">
+                                <MapPin className="mt-1 text-life-orange flex-shrink-0" size={20} />
+                                <p>765 Massachusetts Ave<br/>Cambridge, MA 02139</p>
+                            </div>
+                            <div className="flex items-start gap-3">
+                                <Clock className="mt-1 text-life-orange flex-shrink-0" size={20} />
+                                <p>Mon-Sun: 8am - 9pm</p>
+                            </div>
                         </div>
+                        <Button variant="outline" size="sm" fullWidth>Get Directions</Button>
                     </div>
-                    <Button variant="outline" size="sm" fullWidth>Get Directions</Button>
-                </div>
-            ))}
-       </div>
-    </div>
-  );
+                ))}
+        </div>
+        </div>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-life-cream font-sans selection:bg-life-orange selection:text-white">
