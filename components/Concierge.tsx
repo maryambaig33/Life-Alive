@@ -23,6 +23,12 @@ const Concierge: React.FC = () => {
   ]);
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const isMounted = useRef(true);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => { isMounted.current = false; };
+  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -51,22 +57,27 @@ const Concierge: React.FC = () => {
       // Pass the entire history to the service for context
       const responseText = await generateWellnessRecommendation(newHistory);
 
-      const modelMsg: ChatMessage = {
-        id: `model-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-        role: 'model',
-        text: responseText
-      };
-
-      setMessages(prev => [...prev, modelMsg]);
+      if (isMounted.current) {
+        const modelMsg: ChatMessage = {
+          id: `model-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          role: 'model',
+          text: responseText
+        };
+        setMessages(prev => [...prev, modelMsg]);
+      }
     } catch (err) {
-      const errorMsg: ChatMessage = {
-        id: `error-${Date.now()}`,
-        role: 'model',
-        text: "I'm having a moment of silence. Please try again briefly. 🍃"
-      };
-      setMessages(prev => [...prev, errorMsg]);
+      if (isMounted.current) {
+        const errorMsg: ChatMessage = {
+          id: `error-${Date.now()}`,
+          role: 'model',
+          text: "I'm having a moment of silence. Please try again briefly. 🍃"
+        };
+        setMessages(prev => [...prev, errorMsg]);
+      }
     } finally {
-      setIsTyping(false);
+      if (isMounted.current) {
+        setIsTyping(false);
+      }
     }
   };
 

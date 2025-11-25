@@ -6,9 +6,14 @@ let aiClient: GoogleGenAI | null = null;
 
 const getAiClient = () => {
   if (!aiClient) {
-    const apiKey = process.env.API_KEY;
-    if (apiKey) {
-      aiClient = new GoogleGenAI({ apiKey });
+    try {
+      // Safely access process.env.API_KEY
+      const apiKey = process.env.API_KEY;
+      if (apiKey) {
+        aiClient = new GoogleGenAI({ apiKey });
+      }
+    } catch (e) {
+      console.warn("API Key access failed", e);
     }
   }
   return aiClient;
@@ -18,7 +23,8 @@ const getAiClient = () => {
 export const generateWellnessRecommendation = async (history: ChatMessage[]): Promise<string> => {
   const client = getAiClient();
   if (!client) {
-    return "I'm having trouble connecting to my wellness senses right now (API Key missing). Please try exploring the menu manually! 🌿";
+    // Graceful fallback if API key is missing
+    return "I'm currently tuning into the universe but can't connect to my knowledge base right now. Please try exploring our menu below! 🌿";
   }
 
   // Format the menu data efficiently
@@ -27,7 +33,6 @@ export const generateWellnessRecommendation = async (history: ChatMessage[]): Pr
   ).join('\n');
 
   // Construct the conversation history for the model
-  // Filter out error messages or loading states if any
   const conversationHistory = history
     .filter(msg => !msg.isLoading)
     .map(msg => `${msg.role === 'user' ? 'Customer' : 'Concierge'}: ${msg.text}`)
@@ -37,7 +42,7 @@ export const generateWellnessRecommendation = async (history: ChatMessage[]): Pr
     Current Conversation:
     ${conversationHistory}
 
-    (Provide a helpful, vibrant, and concise response to the Customer's last message based on the Life Alive Menu provided in the system instructions. Do not repeat the menu list unless asked.)
+    (Provide a helpful, vibrant, and concise response to the Customer's last message based on the Life Alive Menu provided in the system instructions. Do not repeat the menu list unless asked. Be brief and warm.)
   `;
 
   // Combine static system instruction with dynamic menu data

@@ -21,9 +21,8 @@ const App: React.FC = () => {
     <div className="relative h-[90vh] min-h-[700px] flex items-center justify-center overflow-hidden">
       {/* Background Image */}
       <div 
-        className="absolute inset-0 bg-cover bg-center z-0 transition-transform duration-[20s] hover:scale-105"
+        className="absolute inset-0 bg-cover bg-center z-0 animate-in fade-in duration-1000"
         style={{ 
-            // More vibrant, cafe/food oriented image
             backgroundImage: "url('https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=2874&auto=format&fit=crop')",
         }}
       ></div>
@@ -34,18 +33,18 @@ const App: React.FC = () => {
       {/* Content */}
       <div className="container mx-auto px-6 relative z-10 text-white mt-16">
         <div className="max-w-3xl">
-            <h2 className="text-life-orange font-bold uppercase tracking-[0.2em] mb-6 flex items-center gap-3 animate-in fade-in slide-in-from-bottom-8 duration-700">
+            <h2 className="text-life-orange font-bold uppercase tracking-[0.2em] mb-6 flex items-center gap-3 animate-in fade-in slide-in-from-bottom-4 duration-700">
                 <span className="w-12 h-0.5 bg-life-orange"></span>
                 Organic Cafe & Wellness
             </h2>
-            <h1 className="font-serif text-6xl md:text-8xl font-bold mb-8 leading-[1.1] animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
+            <h1 className="font-serif text-6xl md:text-8xl font-bold mb-8 leading-[1.1] animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-100">
             Eat to Feel <br />
             <span className="text-yellow-300 italic pr-2">Alive</span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-100 mb-10 font-light leading-relaxed max-w-xl animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300 border-l-4 border-life-orange pl-6">
+            <p className="text-xl md:text-2xl text-gray-100 mb-10 font-light leading-relaxed max-w-xl animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200 border-l-4 border-life-orange pl-6">
             Whole, organic meals crafted from scratch to energize your body and uplift your spirit.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500">
+            <div className="flex flex-col sm:flex-row gap-4 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
             <Button size="lg" onClick={() => setCurrentView(ViewState.MENU)} className="shadow-xl shadow-life-orange/20">
                 Order Now
             </Button>
